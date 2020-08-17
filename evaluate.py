@@ -62,8 +62,8 @@ def main():
         print(f"Ignoring sequence length {args.seq_length} for the im2im task. (Setting to 1)")
         args.seq_length = 1
 
-    dataset = MSLS(args.msls_root, cities = args.cities, mode = 'val', posDistThr = args.threshold, 
-                    task = args.task, seq_length = args.seq_length, subtask = args.subtask)
+    dataset = MSLS(args.msls_root, cities=args.cities, mode='val', posDistThr=args.threshold,
+                    task=args.task, seq_length=args.seq_length, subtask=args.subtask)
 
     # get query and positive image keys  
     database_keys =  [','.join([bn(i)[:-4] for i in p.split(',')]) for p in dataset.dbImages]
