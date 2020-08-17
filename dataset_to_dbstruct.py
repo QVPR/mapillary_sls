@@ -1,7 +1,7 @@
 import argparse
 from pathlib import Path
 
-from mapillary_sls.datasets.msls import MSLS
+from mapillary_sls.datasets.msls import MSLS, default_cities
 from mapillary_sls.utils.eval import download_msls_sample
 
 import sys
@@ -45,12 +45,15 @@ def main():
             print(args.msls_root, root_default)
             raise FileNotFoundError("Not found: {}".format(args.msls_root))
 
-    # select for which ks to evaluate
-    ks = [1, 5, 10, 20]
     args.seq_length = 1
 
-    dataset = MSLS(args.msls_root, cities = args.cities, mode = 'val', posDistThr = args.threshold, 
-                    task = args.task, seq_length = args.seq_length, subtask = args.subtask)
+    if args.cities == 'test' or args.cities in default_cities:
+        mode = 'test'
+    else:
+        mode = 'val'
+
+    dataset = MSLS(args.msls_root, cities=args.cities, mode=mode, posDistThr=args.threshold,
+                    task=args.task, seq_length=args.seq_length, subtask=args.subtask)
 
     dbImage = [database_key.replace(str(root_default) + '/', '') for database_key in dataset.dbImages]
     qImage = [query_key.replace(str(root_default) + '/', '') for query_key in dataset.qImages[dataset.qIdx]]
