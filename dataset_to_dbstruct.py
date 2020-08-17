@@ -47,7 +47,7 @@ def main():
 
     args.seq_length = 1
 
-    if args.cities == 'test' or args.cities in default_cities:
+    if args.cities == 'test' or args.cities in default_cities['test']:
         mode = 'test'
     else:
         mode = 'val'
@@ -55,8 +55,8 @@ def main():
     dataset = MSLS(args.msls_root, cities=args.cities, mode=mode, posDistThr=args.threshold,
                     task=args.task, seq_length=args.seq_length, subtask=args.subtask)
 
-    dbImage = [database_key.replace(str(root_default) + '/', '') for database_key in dataset.dbImages]
-    qImage = [query_key.replace(str(root_default) + '/', '') for query_key in dataset.qImages[dataset.qIdx]]
+    dbImage = [database_key.replace(str(args.msls_root) + '/', '') for database_key in dataset.dbImages]
+    qImage = [query_key.replace(str(args.msls_root) + '/', '') for query_key in dataset.qImages[dataset.qIdx]]
 
     numDb = len(dbImage)
     numQ = len(qImage)
